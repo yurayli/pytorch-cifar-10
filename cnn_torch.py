@@ -108,7 +108,7 @@ class NetSolver(object):
 
         # Log the initial performance
         x, y = next(iter(train_loader))
-        n_correct, n_samples, bch_loss = self.foward_pass(x, y)
+        n_correct, n_samples, bch_loss = self.forward_pass(x, y)
         val_acc, val_loss = self.check_accuracy(val_loader)
         self.loss_history, self.val_loss_history = [bch_loss], [val_loss]
         self.train_acc_history, self.val_acc_history = [float(n_correct)/n_samples], [val_acc]
@@ -154,7 +154,7 @@ class NetSolver(object):
                 self._save_checkpoint(e)
             print()
 
-    def foward_pass(self, x, y):
+    def forward_pass(self, x, y):
         self.model.eval()  # set model to "evaluation" mode
         x = x.to(device=device, dtype=dtype)
         y = y.to(device=device, dtype=torch.long)
@@ -174,7 +174,7 @@ class NetSolver(object):
         num_correct, num_samples, losses = 0, 0, []
         with torch.no_grad():
             for x, y in loader:
-                n_corr, n_samples, l = self.foward_pass(x, y)
+                n_corr, n_samples, l = self.forward_pass(x, y)
                 num_correct += n_corr
                 num_samples += n_samples
                 losses.append(l)
